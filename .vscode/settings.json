@@ -1,1 +1,12 @@
-{}
+{
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  },
+  "css.validate": false,
+  "stylelint.validate": ["css"],
+  "eslint.validate": ["javascript", "typescript", "typescriptreact"],
+  "typescript.validate.enable": true,
+  "typescript.reportStyleChecksAsWarnings": false,
+  "typescript.tsdk": "node_modules/typescript/lib"
+}

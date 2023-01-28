@@ -3,6 +3,12 @@
   https://www.joshwcomeau.com/css/custom-css-reset/
 */
 
+@import '../node_modules/@clayui/charts/src/scss/main';
+
+:root {
+  --gray-200: #f1f2f5;
+}
+
 *,
 *::before,
 *::after {
@@ -15,8 +21,8 @@
 
 html {
   font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
-    "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif,
-    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif,
+    'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   font-size: 16px;
 }
 

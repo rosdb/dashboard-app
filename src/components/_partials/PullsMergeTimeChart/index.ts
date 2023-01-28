@@ -1,0 +1,1 @@
+export { PullsMergeTimeChart } from './PullsMergeTimeChart';
