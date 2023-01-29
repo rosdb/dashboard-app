@@ -1,0 +1,11 @@
+.header {
+  background-color: var(--white);
+  height: 80px;
+  padding: 15px;
+  box-shadow: 0 1px 3px -1px rgb(0 0 0 / 60%);
+  overflow: hidden;
+
+  span {
+    display: block;
+  }
+}
