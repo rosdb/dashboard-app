@@ -1,7 +1,7 @@
 import ClayChart from '@clayui/charts';
 import { format } from 'date-fns';
 
-export const PullsMergeTimeChart = ({
+export const PullsMergeBySizeChart = ({
   data
 }: {
   data: unknown;
