@@ -1,3 +1,3 @@
-import { Octokit } from "octokit";
+import { Octokit } from 'octokit';
 
 export const Http = new Octokit({});

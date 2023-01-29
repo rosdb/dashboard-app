@@ -1,11 +1,11 @@
-import { RequestError } from "@octokit/types";
+import { RequestError } from '@octokit/types';
 
-import { ENDPOINT } from "./endpoints";
-import { Http } from "./handleRequests";
+import { ENDPOINT } from './endpoints';
+import { Http } from './handleRequests';
 
 export const getClosedPulls = async ({
   owner,
-  repo,
+  repo
 }: {
   owner: string;
   repo: string;
@@ -13,7 +13,7 @@ export const getClosedPulls = async ({
   try {
     const result = await Http.request(ENDPOINT.CLOSED_PULLS_LIST, {
       owner,
-      repo,
+      repo
     });
     console.log(result.data);
   } catch (err) {
