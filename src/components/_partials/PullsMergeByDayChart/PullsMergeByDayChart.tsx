@@ -22,6 +22,9 @@ export const PullsMergeByDayChart = ({
         point={{
           pattern: ['circle']
         }}
+        legend={{
+          usePoint: true
+        }}
       />
     </div>
   );

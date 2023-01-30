@@ -1,23 +1,17 @@
 import { RequestError } from '@octokit/types';
 
-import { ENDPOINT } from './endpoints';
+import { ENDPOINT, Params } from './endpoints';
 import { Http } from './handleRequests';
 
-export const getPulls = async ({
-  owner,
-  repo
-}: {
-  owner: string;
-  repo: string;
-}): Promise<void> => {
+export const getPulls = async ({ owner, repo }: Params): Promise<unknown> => {
   try {
     const result = await Http.request(ENDPOINT.PULLS_LIST, {
       owner,
       repo
     });
-    console.log(result.data);
+    return result.data;
   } catch (err) {
     const error = err as RequestError;
-    console.log(`Error! Status: ${error.status}.`);
+    throw `Error! Status: ${error.status}.`;
   }
 };

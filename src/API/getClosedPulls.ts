@@ -1,23 +1,22 @@
 import { RequestError } from '@octokit/types';
 
-import { ENDPOINT } from './endpoints';
+import type { Pull } from '~/Model/Pulls';
+
+import { ENDPOINT, Params } from './endpoints';
 import { Http } from './handleRequests';
 
 export const getClosedPulls = async ({
   owner,
   repo
-}: {
-  owner: string;
-  repo: string;
-}): Promise<void> => {
+}: Params): Promise<Pull[]> => {
   try {
     const result = await Http.request(ENDPOINT.CLOSED_PULLS_LIST, {
       owner,
       repo
     });
-    console.log(result.data);
+    return result.data;
   } catch (err) {
     const error = err as RequestError;
-    console.log(`Error! Status: ${error.status}.`);
+    throw `Error! Status: ${error.status}.`;
   }
 };

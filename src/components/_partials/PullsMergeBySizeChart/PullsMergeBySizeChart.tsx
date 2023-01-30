@@ -1,11 +1,15 @@
 import ClayChart from '@clayui/charts';
 import { format } from 'date-fns';
 
+import { usePullsMergeBySize } from './usePullsMergeBySize';
+
 export const PullsMergeBySizeChart = ({
   data
 }: {
   data: unknown;
 }): JSX.Element => {
+  const fetched = usePullsMergeBySize();
+  console.log(fetched);
   return (
     <div className="c-p-3">
       <ClayChart
