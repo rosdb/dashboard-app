@@ -146,10 +146,10 @@ export interface Pull {
   title: string;
   user: User;
   body: string;
-  created_at: Date;
-  updated_at: Date;
-  closed_at: Date;
-  merged_at: Date;
+  created_at: string;
+  updated_at: string;
+  closed_at: string;
+  merged_at: string;
   merge_commit_sha: string;
   assignee?: string;
   assignees: string[];
@@ -169,4 +169,25 @@ export interface Pull {
   author_association: string;
   auto_merge?: Record<string, unknown>;
   active_lock_reason?: string;
+}
+
+export interface PullFiles {
+  sha: string;
+  filename: string;
+  status:
+    | 'added'
+    | 'removed'
+    | 'modified'
+    | 'renamed'
+    | 'copied'
+    | 'changed'
+    | 'unchanged';
+  additions: number;
+  deletions: number;
+  changes: number;
+  blob_url: string;
+  raw_url: string;
+  contents_url: string;
+  patch?: string | undefined;
+  previous_filename?: string | undefined;
 }

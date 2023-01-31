@@ -8,9 +8,6 @@ import {
 
 import styles from './Dashboard.module.scss';
 
-const AV_MERGE_TIME_BY_SIZE = [
-  ['time', 124587584359, 324534534543, 484534534543]
-];
 const PR_BY_DAY = [
   [
     'x',
@@ -32,7 +29,7 @@ export const Dashboard = (): JSX.Element => {
         <div className="text-left border-bottom c-p-3 c-mb-4">
           Average Merge Time by Pull Request Size
         </div>
-        <PullsMergeBySizeChart data={AV_MERGE_TIME_BY_SIZE} />
+        <PullsMergeBySizeChart />
       </ClayCard>
       <div className={`d-sm-block d-md-flex ${styles.gap}`}>
         <AverageTimeCards />

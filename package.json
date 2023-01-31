@@ -12,8 +12,6 @@
     "lint": "eslint . --ext .ts,.tsx --fix --ignore-path .gitignore",
     "prepare": "husky install",
     "serve": "npm run build && vite preview --port 3000",
-    "test:e2e": "start-server-and-test serve http://127.0.0.1:3000/ 'cypress open'",
-    "test:e2e:ci": "start-server-and-test serve http://127.0.0.1:3000/ 'cypress run'",
     "test:unit": "jest --watch",
     "test:unit:ci": "jest",
     "test:unit:coverage": "jest --silent --watchAll=false --coverage",
@@ -46,7 +44,6 @@
     "react-query": "^3.39.3"
   },
   "devDependencies": {
-    "@cypress/vite-dev-server": "^3.0.0",
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.3.0",
     "@testing-library/user-event": "^14.2.1",
@@ -59,7 +56,6 @@
     "@typescript-eslint/parser": "^5.29.0",
     "@vitejs/plugin-legacy": "^1.8.2",
     "@vitejs/plugin-react": "^1.3.2",
-    "cypress": "^10.2.0",
     "eslint": "^8.18.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-import-resolver-typescript": "^2.7.1",
