@@ -26,20 +26,20 @@ export const Dashboard = (): JSX.Element => {
   return (
     <div className={styles.dashboard}>
       <ClayCard>
-        <div className="text-left border-bottom c-p-3 c-mb-4">
-          Average Merge Time by Pull Request Size
-        </div>
+        <TitleCard title="Average Merge Time by Pull Request Size" />
         <PullsMergeBySizeChart />
       </ClayCard>
       <div className={`d-sm-block d-md-flex ${styles.gap}`}>
         <AverageTimeCards />
       </div>
       <ClayCard>
-        <div className="text-left border-bottom c-p-3 c-mb-4">
-          Month Summary
-        </div>
+        <TitleCard title="Month Summary" />
         <PullsMergeByDayChart data={PR_BY_DAY} />
       </ClayCard>
     </div>
   );
+};
+
+export const TitleCard = ({ title }: { title: string }): JSX.Element => {
+  return <div className="text-left border-bottom c-p-3 c-mb-4">{title}</div>;
 };

@@ -71,6 +71,10 @@ export const usePullsMergeBySize = () => {
 
   const isLoading = filesQueries.some(result => result.isLoading);
 
+  /**
+   * @description given a list of formatted merged pulls, it sets an object with a key that define the average merge time by pulls size.
+   * @param {MergedPull[]} pulls
+   */
   const handleAverageBySize = (pulls: MergedPull[]): void => {
     const averageBySizeObj = pulls.reduce(
       (acc, { size, elapsedTime }) =>
@@ -86,9 +90,17 @@ export const usePullsMergeBySize = () => {
     setAverageBySize(averageBySizeObj);
   };
 
+  /**
+   * @description given a list of a pull files, it returns a sum of all changes.
+   * @param {PullFiles[]} files
+   */
   const getFileChanges = (files: PullFiles[]): number =>
     files.map(file => file.changes).reduce((a, b) => a + b, 0);
 
+  /**
+   * @description given a number of all files changes, it returns the category of the pull ('small', 'medium' or 'large') and sets the numbers of pulls in each category.
+   * @param {number} changes
+   */
   const getPullSize = (changes: number): Size | undefined => {
     if (changes <= 100) {
       setPullsNumBySize({ ...pullsNumBySize, small: pullsNumBySize.small + 1 });
@@ -115,7 +127,7 @@ export const usePullsMergeBySize = () => {
   return { averageBySize, isLoading };
 };
 
-// utils
+// util
 const differenceBetweenTwoDates = (start: string, end: string): number => {
   const createdAt = new Date(start);
   const mergedAt = new Date(end);
