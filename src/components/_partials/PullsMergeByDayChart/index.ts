@@ -1,1 +1,0 @@
-export { PullsMergeByDayChart } from './PullsMergeByDayChart';

@@ -1,1 +1,0 @@
-export { PullsMergeBySizeChart } from './PullsMergeBySizeChart';

@@ -24,7 +24,12 @@ const initialState = {
   large: 0
 };
 
-export const usePullsMergeBySize = () => {
+interface ReturnTypeObj {
+  averageBySize: AverageBySize;
+  isLoading: boolean;
+}
+
+export const usePullsBySizeChart = (): ReturnTypeObj => {
   const [formattedPulls, setFormattedPulls] = useState<MergedPull[]>([]);
   const [averageBySize, setAverageBySize] =
     useState<AverageBySize>(initialState);
@@ -40,7 +45,9 @@ export const usePullsMergeBySize = () => {
           ?.filter(({ merged_at }) => Boolean(merged_at))
           .map(({ number, created_at, merged_at }) => ({
             number,
-            elapsedTime: differenceBetweenTwoDates(created_at, merged_at)
+            elapsedTime: merged_at
+              ? differenceBetweenTwoDates(created_at, merged_at)
+              : 0
           }))
       )
   });
@@ -57,12 +64,17 @@ export const usePullsMergeBySize = () => {
           }),
         enabled: closedPullsFetchStatus === 'success',
         onSuccess: (files: PullFiles[]) => {
+          const changes = getFileChanges(files);
+
           setFormattedPulls(
             srcArr.map(pr => ({
               ...pr,
-              size: getPullSize(getFileChanges(files))
+              size: getPullSize(changes)
             }))
           );
+
+          setPullsCountBySize(changes);
+
           handleAverageBySize(formattedPulls);
         }
       };
@@ -98,29 +110,35 @@ export const usePullsMergeBySize = () => {
     files.map(file => file.changes).reduce((a, b) => a + b, 0);
 
   /**
-   * @description given a number of all files changes, it returns the category of the pull ('small', 'medium' or 'large') and sets the numbers of pulls in each category.
+   * @description given a number of all files changes, it returns the category of the pull ('small', 'medium' or 'large')
    * @param {number} changes
    */
   const getPullSize = (changes: number): Size | undefined => {
     if (changes <= 100) {
-      setPullsNumBySize({ ...pullsNumBySize, small: pullsNumBySize.small + 1 });
       return 'small';
     }
 
     if (changes <= 1000) {
-      setPullsNumBySize({
-        ...pullsNumBySize,
-        medium: pullsNumBySize.medium + 1
-      });
       return 'medium';
     }
 
     if (changes > 1000) {
+      return 'large';
+    }
+  };
+
+  /**
+   * @description given a number of all files changes, it sets number of pull by size
+   * @param {number} changes
+   */
+  const setPullsCountBySize = (changes: number) => {
+    const size = getPullSize(changes);
+
+    if (size) {
       setPullsNumBySize({
         ...pullsNumBySize,
-        large: pullsNumBySize.large + 1
+        [size]: pullsNumBySize[size] + 1
       });
-      return 'large';
     }
   };
 

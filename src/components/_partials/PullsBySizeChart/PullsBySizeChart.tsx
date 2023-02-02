@@ -1,13 +1,13 @@
 import ClayChart from '@clayui/charts';
 import { format } from 'date-fns';
 
-import { usePullsMergeBySize } from './usePullsMergeBySize';
+import { usePullsBySizeChart } from './usePullsBySizeChart';
 
-export const PullsMergeBySizeChart = (): JSX.Element => {
+export const PullsBySizeChart = (): JSX.Element => {
   const {
     averageBySize: { small, medium, large },
     isLoading
-  } = usePullsMergeBySize();
+  } = usePullsBySizeChart();
 
   const AV_MERGE_TIME_BY_SIZE = [['time', small, medium, large]];
 
