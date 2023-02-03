@@ -15,7 +15,13 @@ interface ClosedIssues {
   elapsedTime: number;
 }
 
-export const useAverageTimeCards = () => {
+interface ReturnTypeObj {
+  isLoading: boolean;
+  averageIssueTime: number;
+  averagePullsTime: number;
+}
+
+export const useAverageTimeCards = (): ReturnTypeObj => {
   const [formattedIssues, setFormattedIssues] = useState<ClosedIssues[]>([]);
   const [averageIssueTime, setAverageIssueTime] = useState<number>(0);
   const [averagePullsTime, setAveragePullsTime] = useState<number>(0);

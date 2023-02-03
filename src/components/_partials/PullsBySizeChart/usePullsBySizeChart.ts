@@ -43,17 +43,7 @@ export const usePullsBySizeChart = (): ReturnTypeObj => {
     queryKey: 'closedPulls',
     queryFn: () => getClosedPulls({ owner: GITHUB_OWNER, repo: GITHUB_REPO }),
     refetchOnWindowFocus: false,
-    onSuccess: d =>
-      setFormattedPulls(
-        d
-          ?.filter(({ merged_at }) => Boolean(merged_at))
-          .map(({ number, created_at, merged_at }) => ({
-            number,
-            elapsedTime: merged_at
-              ? differenceBetweenTwoDates(merged_at, created_at)
-              : 0
-          }))
-      )
+    onSuccess: d => handleClosedPulls(d)
   });
 
   const filesQueries = useQueries(
@@ -68,25 +58,42 @@ export const usePullsBySizeChart = (): ReturnTypeObj => {
           }),
         enabled: closedPullsFetchStatus === 'success',
         refetchOnWindowFocus: false,
-        onSuccess: (files: PullFiles[]) => {
-          const changes = getFileChanges(files);
-
-          setFormattedPulls(
-            srcArr.map(pr => ({
-              ...pr,
-              size: getPullSize(changes)
-            }))
-          );
-
-          setPullsCountBySize(changes);
-
-          handleAverageBySize(formattedPulls);
-        }
+        onSuccess: (f: PullFiles[]) => handleFiles(f, srcArr)
       };
     })
   );
 
   const isLoading = filesQueries.some(result => result.isLoading);
+
+  const handleClosedPulls = (d: Pull[]): void => {
+    const closedPulls = d
+      ?.filter(({ merged_at }) => Boolean(merged_at))
+      .map(({ number, created_at, merged_at }) => {
+        return {
+          number,
+          elapsedTime: merged_at
+            ? differenceBetweenTwoDates(merged_at, created_at)
+            : 0
+        };
+      });
+
+    setFormattedPulls(closedPulls);
+  };
+
+  const handleFiles = (files: PullFiles[], srcArr: MergedPull[]): void => {
+    const changes = getFileChanges(files);
+
+    setFormattedPulls(
+      srcArr.map(pr => ({
+        ...pr,
+        size: getPullSize(changes)
+      }))
+    );
+
+    setPullsCountBySize(changes);
+
+    handleAverageBySize(formattedPulls);
+  };
 
   /**
    * @description given a list of formatted merged pulls, it sets an object with a key that define the average merge time by pulls size.
@@ -115,6 +122,21 @@ export const usePullsBySizeChart = (): ReturnTypeObj => {
     files.map(file => file.changes).reduce((a, b) => a + b, 0);
 
   /**
+   * @description given a number of all files changes, it sets number of pull by size
+   * @param {number} changes
+   */
+  const setPullsCountBySize = (changes: number) => {
+    const size = getPullSize(changes);
+
+    if (size) {
+      setPullsNumBySize({
+        ...pullsNumBySize,
+        [size]: pullsNumBySize[size] + 1
+      });
+    }
+  };
+
+  /**
    * @description given a number of all files changes, it returns the category of the pull ('small', 'medium' or 'large')
    * @param {number} changes
    */
@@ -129,21 +151,6 @@ export const usePullsBySizeChart = (): ReturnTypeObj => {
 
     if (changes > 1000) {
       return 'large';
-    }
-  };
-
-  /**
-   * @description given a number of all files changes, it sets number of pull by size
-   * @param {number} changes
-   */
-  const setPullsCountBySize = (changes: number) => {
-    const size = getPullSize(changes);
-
-    if (size) {
-      setPullsNumBySize({
-        ...pullsNumBySize,
-        [size]: pullsNumBySize[size] + 1
-      });
     }
   };
 

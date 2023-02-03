@@ -7,7 +7,14 @@ import { GITHUB_OWNER, GITHUB_REPO } from '~/constants/env';
 import { Pull } from '~/model/Pulls';
 import { compareTwoDays } from '~/utils';
 
-export const usePullByDayChart = () => {
+interface ReturnTypeObj {
+  isLoading: boolean;
+  daysOfLastMonth: Date[];
+  openedPulls: number[];
+  mergedPulls: number[];
+}
+
+export const usePullByDayChart = (): ReturnTypeObj => {
   const [openedPulls, setOpenedPulls] = useState<number[]>([]);
   const [mergedPulls, setMergedPulls] = useState<number[]>([]);
 
@@ -18,9 +25,9 @@ export const usePullByDayChart = () => {
   const { isLoading } = useQuery({
     queryKey: 'pulls',
     queryFn: () => getClosedPulls({ owner: GITHUB_OWNER, repo: GITHUB_REPO }),
-    onSuccess: p => handlePullByDay(p, daysOfLastMonth),
     enabled: Boolean(daysOfLastMonth),
-    refetchOnWindowFocus: false
+    refetchOnWindowFocus: false,
+    onSuccess: p => handlePullByDay(p, daysOfLastMonth)
   });
 
   const handlePullByDay = (pulls: Pull[], days: Date[]): void => {
