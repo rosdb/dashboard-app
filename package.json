@@ -1,5 +1,5 @@
 {
-  "name": "react-ts-vite-template",
+  "name": "dashboard-app",
   "version": "0.0.0",
   "author": {
     "name": "rosdb",
@@ -10,11 +10,7 @@
     "dev": "vite",
     "format": "prettier . --write --ignore-path .gitignore && git update-index --again",
     "lint": "eslint . --ext .ts,.tsx --fix --ignore-path .gitignore",
-    "prepare": "husky install",
-    "serve": "npm run build && vite preview --port 3000",
     "test:unit": "jest --watch",
-    "test:unit:ci": "jest",
-    "test:unit:coverage": "jest --silent --watchAll=false --coverage",
     "typecheck": "tsc --noEmit"
   },
   "lint-staged": {
@@ -26,11 +22,6 @@
       "prettier --write"
     ],
     "package.json": "npx sort-package-json"
-  },
-  "config": {
-    "commitizen": {
-      "path": "@commitlint/cz-commitlint"
-    }
   },
   "dependencies": {
     "@clayui/card": "^3.85.0",
