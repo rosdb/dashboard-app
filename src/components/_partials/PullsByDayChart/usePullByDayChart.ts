@@ -17,7 +17,8 @@ export const usePullByDayChart = () => {
     queryKey: 'pulls',
     queryFn: () => getClosedPulls({ owner: 'liferay', repo: 'clay' }),
     onSuccess: p => handlePullByDay(p, daysOfLastMonth),
-    enabled: Boolean(daysOfLastMonth)
+    enabled: Boolean(daysOfLastMonth),
+    refetchOnWindowFocus: false
   });
 
   const handlePullByDay = (pulls: Pull[], days: Date[]): void => {

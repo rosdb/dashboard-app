@@ -1,9 +1,9 @@
-import { differenceInMilliseconds } from 'date-fns';
+import { differenceInMilliseconds, parseISO } from 'date-fns';
 import { useState } from 'react';
 import { useQueries, useQuery } from 'react-query';
 
 import { getClosedPulls, getPullFiles } from '~/API';
-import { Pull, PullFiles } from '~/Model/Pulls';
+import { Pull, PullFiles } from '~/Model';
 
 interface AverageBySize {
   small: number;
@@ -13,7 +13,7 @@ interface AverageBySize {
 
 type Size = 'small' | 'medium' | 'large';
 
-interface MergedPull extends Pick<Pull, 'number'> {
+export interface MergedPull extends Pick<Pull, 'number'> {
   elapsedTime: number;
   size?: Size;
 }
@@ -27,6 +27,8 @@ const initialState = {
 interface ReturnTypeObj {
   averageBySize: AverageBySize;
   isLoading: boolean;
+  formattedPulls: MergedPull[];
+  closedPullsFetchStatus: 'idle' | 'error' | 'loading' | 'success';
 }
 
 export const usePullsBySizeChart = (): ReturnTypeObj => {
@@ -39,6 +41,7 @@ export const usePullsBySizeChart = (): ReturnTypeObj => {
   const { status: closedPullsFetchStatus } = useQuery({
     queryKey: 'closedPulls',
     queryFn: () => getClosedPulls({ owner: 'liferay', repo: 'clay' }),
+    refetchOnWindowFocus: false,
     onSuccess: d =>
       setFormattedPulls(
         d
@@ -46,7 +49,7 @@ export const usePullsBySizeChart = (): ReturnTypeObj => {
           .map(({ number, created_at, merged_at }) => ({
             number,
             elapsedTime: merged_at
-              ? differenceBetweenTwoDates(created_at, merged_at)
+              ? differenceBetweenTwoDates(merged_at, created_at)
               : 0
           }))
       )
@@ -63,6 +66,7 @@ export const usePullsBySizeChart = (): ReturnTypeObj => {
             pull_number: number
           }),
         enabled: closedPullsFetchStatus === 'success',
+        refetchOnWindowFocus: false,
         onSuccess: (files: PullFiles[]) => {
           const changes = getFileChanges(files);
 
@@ -142,12 +146,16 @@ export const usePullsBySizeChart = (): ReturnTypeObj => {
     }
   };
 
-  return { averageBySize, isLoading };
+  return { averageBySize, isLoading, formattedPulls, closedPullsFetchStatus };
 };
 
 // util
-const differenceBetweenTwoDates = (start: string, end: string): number => {
-  const createdAt = new Date(start);
-  const mergedAt = new Date(end);
-  return differenceInMilliseconds(mergedAt, createdAt);
+export const differenceBetweenTwoDates = (
+  left: string,
+  right: string
+): number => {
+  const leftDate = parseISO(left);
+  const rightDate = parseISO(right);
+
+  return differenceInMilliseconds(leftDate, rightDate);
 };
