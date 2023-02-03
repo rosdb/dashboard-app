@@ -1,10 +1,11 @@
-import { eachDayOfInterval, isSameDay, parseISO, subMonths } from 'date-fns';
+import { eachDayOfInterval, subMonths } from 'date-fns';
 import { useState } from 'react';
 import { useQuery } from 'react-query';
 
 import { getClosedPulls } from '~/API';
 import { GITHUB_OWNER, GITHUB_REPO } from '~/constants/env';
-import { Pull } from '~/Model/Pulls';
+import { Pull } from '~/model/Pulls';
+import { compareTwoDays } from '~/utils';
 
 export const usePullByDayChart = () => {
   const [openedPulls, setOpenedPulls] = useState<number[]>([]);
@@ -25,8 +26,8 @@ export const usePullByDayChart = () => {
   const handlePullByDay = (pulls: Pull[], days: Date[]): void => {
     const pullsStatusLastMonth = days.map(day => {
       return {
-        merged: pulls.filter(pr => compareTwoDates(day, pr.merged_at)).length,
-        opened: pulls.filter(pr => compareTwoDates(day, pr.created_at)).length
+        merged: pulls.filter(pr => compareTwoDays(day, pr.merged_at)).length,
+        opened: pulls.filter(pr => compareTwoDays(day, pr.created_at)).length
       };
     });
 
@@ -35,9 +36,4 @@ export const usePullByDayChart = () => {
   };
 
   return { isLoading, daysOfLastMonth, openedPulls, mergedPulls };
-};
-
-// util
-const compareTwoDates = (a: Date, b: string | null): boolean => {
-  return b ? isSameDay(parseISO(b), a) : false;
 };

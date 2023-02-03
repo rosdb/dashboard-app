@@ -1,6 +1,6 @@
 import { RequestError } from '@octokit/types';
 
-import type { PullFiles } from '~/Model';
+import type { PullFiles } from '~/model';
 
 import { ENDPOINT, ParamsWithPullFiles } from './endpoints';
 import { Http } from './handleRequests';

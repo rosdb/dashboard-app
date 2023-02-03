@@ -3,10 +3,10 @@ import { useQuery } from 'react-query';
 
 import { getClosedIssues } from '~/API';
 import { GITHUB_OWNER, GITHUB_REPO } from '~/constants/env';
-import { Issue } from '~/Model';
+import { Issue } from '~/model';
+import { differenceBetweenTwoDates } from '~/utils';
 
 import {
-  differenceBetweenTwoDates,
   MergedPull,
   usePullsBySizeChart
 } from '../PullsBySizeChart/usePullsBySizeChart';

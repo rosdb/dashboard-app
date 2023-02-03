@@ -1,6 +1,6 @@
 import { RequestError } from '@octokit/types';
 
-import { Issue } from '~/Model';
+import { Issue } from '~/model';
 
 import { ENDPOINT, Params } from './endpoints';
 import { Http } from './handleRequests';

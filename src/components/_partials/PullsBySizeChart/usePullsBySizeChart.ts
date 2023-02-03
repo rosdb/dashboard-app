@@ -1,10 +1,10 @@
-import { differenceInMilliseconds, parseISO } from 'date-fns';
 import { useState } from 'react';
 import { useQueries, useQuery } from 'react-query';
 
 import { getClosedPulls, getPullFiles } from '~/API';
 import { GITHUB_OWNER, GITHUB_REPO } from '~/constants/env';
-import { Pull, PullFiles } from '~/Model';
+import { Pull, PullFiles } from '~/model';
+import { differenceBetweenTwoDates } from '~/utils';
 
 interface AverageBySize {
   small: number;
@@ -148,15 +148,4 @@ export const usePullsBySizeChart = (): ReturnTypeObj => {
   };
 
   return { averageBySize, isLoading, formattedPulls, closedPullsFetchStatus };
-};
-
-// util
-export const differenceBetweenTwoDates = (
-  left: string,
-  right: string
-): number => {
-  const leftDate = parseISO(left);
-  const rightDate = parseISO(right);
-
-  return differenceInMilliseconds(leftDate, rightDate);
 };
