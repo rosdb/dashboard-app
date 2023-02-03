@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useQuery } from 'react-query';
 
 import { getClosedIssues } from '~/API';
+import { GITHUB_OWNER, GITHUB_REPO } from '~/constants/env';
 import { Issue } from '~/Model';
 
 import {
@@ -22,7 +23,11 @@ export const useAverageTimeCards = () => {
 
   const { isLoading } = useQuery({
     queryKey: 'closedIssues',
-    queryFn: () => getClosedIssues({ owner: 'liferay', repo: 'clay' }),
+    queryFn: () =>
+      getClosedIssues({
+        owner: GITHUB_OWNER,
+        repo: GITHUB_REPO
+      }),
     enabled: closedPullsFetchStatus === 'success',
     refetchOnWindowFocus: false,
     onSuccess: issues => handleClosedIssues(issues)

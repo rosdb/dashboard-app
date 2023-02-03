@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { useQueries, useQuery } from 'react-query';
 
 import { getClosedPulls, getPullFiles } from '~/API';
+import { GITHUB_OWNER, GITHUB_REPO } from '~/constants/env';
 import { Pull, PullFiles } from '~/Model';
 
 interface AverageBySize {
@@ -40,7 +41,7 @@ export const usePullsBySizeChart = (): ReturnTypeObj => {
 
   const { status: closedPullsFetchStatus } = useQuery({
     queryKey: 'closedPulls',
-    queryFn: () => getClosedPulls({ owner: 'liferay', repo: 'clay' }),
+    queryFn: () => getClosedPulls({ owner: GITHUB_OWNER, repo: GITHUB_REPO }),
     refetchOnWindowFocus: false,
     onSuccess: d =>
       setFormattedPulls(

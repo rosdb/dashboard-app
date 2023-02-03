@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { useQuery } from 'react-query';
 
 import { getClosedPulls } from '~/API';
+import { GITHUB_OWNER, GITHUB_REPO } from '~/constants/env';
 import { Pull } from '~/Model/Pulls';
 
 export const usePullByDayChart = () => {
@@ -15,7 +16,7 @@ export const usePullByDayChart = () => {
 
   const { isLoading } = useQuery({
     queryKey: 'pulls',
-    queryFn: () => getClosedPulls({ owner: 'liferay', repo: 'clay' }),
+    queryFn: () => getClosedPulls({ owner: GITHUB_OWNER, repo: GITHUB_REPO }),
     onSuccess: p => handlePullByDay(p, daysOfLastMonth),
     enabled: Boolean(daysOfLastMonth),
     refetchOnWindowFocus: false
