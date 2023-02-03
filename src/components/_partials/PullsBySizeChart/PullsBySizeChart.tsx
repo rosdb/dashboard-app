@@ -14,7 +14,7 @@ export const PullsBySizeChart = (): JSX.Element => {
   return (
     <div className="c-p-3">
       {isLoading ? (
-        '...loading'
+        <span>...loading</span>
       ) : (
         <ClayChart
           axis={{

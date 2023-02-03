@@ -4,7 +4,8 @@ import { format } from 'date-fns';
 import { useAverageTimeCards } from './useAverageTimeCards';
 
 export const AverageTimeCards = (): JSX.Element => {
-  const { averageIssueTime, averagePullsTime } = useAverageTimeCards();
+  const { isLoading, averageIssueTime, averagePullsTime } =
+    useAverageTimeCards();
 
   const AV_MERGE_TIME = format(averagePullsTime, "d'days' k'h' m'm'");
   const AV_CLOSE_TIME = format(averageIssueTime, "d'days' k'h' m'm'");
@@ -25,7 +26,11 @@ export const AverageTimeCards = (): JSX.Element => {
       {data.map(({ title, content }, idx) => (
         <ClayCard key={idx} className="w-100">
           <div className="text-left border-bottom c-p-3">{title}</div>
-          <p className="text-center text-11 c-p-4">{content}</p>
+          {isLoading ? (
+            <span>...loading</span>
+          ) : (
+            <p className="text-center text-11 c-p-4">{content}</p>
+          )}
         </ClayCard>
       ))}
     </>
