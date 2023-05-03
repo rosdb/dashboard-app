@@ -52,8 +52,8 @@ export const usePullsBySizeChart = (): ReturnTypeObj => {
         queryKey: ['pullFiles', number],
         queryFn: () =>
           getPullFiles({
-            owner: 'liferay',
-            repo: 'clay',
+            owner: GITHUB_OWNER,
+            repo: GITHUB_REPO,
             pull_number: number
           }),
         enabled: closedPullsFetchStatus === 'success',
